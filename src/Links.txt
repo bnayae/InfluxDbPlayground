@@ -1,0 +1,7 @@
+Download InfluxDB
+https://portal.influxdata.com/downloads
+
+
+Metrics Types:
+https://github.com/Recognos/Metrics.NET/wiki/Meters
+

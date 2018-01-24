@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+// chronograf: http://localhost:8888/sources/1/chronograf/data-explorer
+
 namespace HelloInfluxMetrics
 {
     class Program

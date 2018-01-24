@@ -1,4 +1,5 @@
 ﻿using Metrics;
+using Metrics.MetricData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,25 +16,25 @@ namespace MetricsNetRaw
         // keep a histogram of the duration of a type 
         // of event and a meter of the rate of its occurrence
         private static readonly Metrics.Timer _timerA = 
-            Metric.Timer("ScopeA", Unit.Requests);
+            Metric.Context("Eshet.Context").Timer("ScopeA", Unit.Requests);
         private static readonly Metrics.Timer _timerB = 
-            Metric.Timer("ScopeB", Unit.Requests);
+            Metric.Context("Eshet.Context").Timer("ScopeB", Unit.Requests);
 
         // 4 bit integers that can be incremented or decremented
         private static readonly Counter _counterA = 
-            Metric.Counter("ValueA", Unit.Requests);
+            Metric.Context("Eshet.Context").Counter("ValueA", Unit.Requests);
         private static readonly Counter _counterB =
-            Metric.Counter("ValueB", Unit.Requests);
+            Metric.Context("Eshet.Context").Counter("ValueB", Unit.Requests);
 
         // record the rate at which an event occurs
         private static readonly Meter _meterA =
-                    Metric.Meter("Calls A", Unit.Calls, TimeUnit.Seconds);
+                    Metric.Context("Eshet.Context").Meter("Calls A", Unit.Calls, TimeUnit.Seconds);
         private static readonly Meter _meterB =
-                    Metric.Meter("Calls B", Unit.Events, TimeUnit.Seconds);
+                    Metric.Context("Eshet.Context").Meter("Calls B", Unit.Events, TimeUnit.Seconds);
 
         // A Histogram measures the distribution of values in a stream
         private static readonly Histogram _histogram = 
-            Metric.Histogram("Search Results", Unit.Items);
+            Metric.Context("Eshet.Context").Histogram("Search Results", Unit.Items);
 
 
 
@@ -41,7 +42,9 @@ namespace MetricsNetRaw
 
         static void Main(string[] args)
         {
+            
             Metric.Config
+                
                 .WithHttpEndpoint("http://localhost:1234/");
             //.WithAllCounters();
 

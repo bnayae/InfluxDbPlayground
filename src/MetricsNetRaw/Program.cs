@@ -51,53 +51,50 @@ namespace MetricsNetRaw
             int i = 0;
             while (true)
             {
-                _counterA.Increment();
-                int delay = _rnd.Next(500, 2000);
-                _timerB.Record(delay, TimeUnit.Microseconds, "Bnaya");
-                _counterB.Increment(delay);
+                //_counterA.Increment();
+                //int delay = _rnd.Next(500, 2000);
+                //_timerB.Record(delay, TimeUnit.Microseconds, "Bnaya");
+                //_counterB.Increment(delay);
                 _meterA.Mark();
                 i++;
-                //_meterB.Mark("Open", i % 30);
-                //_meterB.Mark("Close", i);
-                //if(i % 40 < 20)
-                //    _meterB.Mark("Drop", i);
-                if (i % 40 < 20)
-                    _meterB.Mark(i);
+             
+                //if (i % 40 < 20)
+                //    _meterB.Mark(i);
 
-                switch ((i % 50) / 10)
-                {
-                    case 0:
-                        _histogram.Update(i);
-                        break;
-                    case 1:
-                        _histogram.Update(i % 10);
-                        break;
-                    case 2:
-                        if(i % 2 == 0)
-                            _histogram.Update(i);
-                        else
-                            _histogram.Update(-i);
-                        break;
-                    case 4:
-                        _histogram.Update(i % 1000);
-                        break;
-                    default:
-                        break;
-                }
-                using (var x = _timerA.NewContext()) // measure until disposed
-                {
-                    Thread.Sleep(delay);
-                }
-                _counterA.Decrement();
+                //switch ((i % 50) / 10)
+                //{
+                //    case 0:
+                //        _histogram.Update(i);
+                //        break;
+                //    case 1:
+                //        _histogram.Update(i % 10);
+                //        break;
+                //    case 2:
+                //        if(i % 2 == 0)
+                //            _histogram.Update(i);
+                //        else
+                //            _histogram.Update(-i);
+                //        break;
+                //    case 4:
+                //        _histogram.Update(i % 1000);
+                //        break;
+                //    default:
+                //        break;
+                //}
+                //using (var x = _timerA.NewContext()) // measure until disposed
+                //{
+                //    Thread.Sleep(delay);
+                //}
+                //_counterA.Decrement();
                 
-                // A gauge is the simplest metric type. It represents an instantaneous value
+                //// A gauge is the simplest metric type. It represents an instantaneous value
 
-                // gauge from Func<double>
-                Metric.Gauge("MyValue", () => _rnd.Next(30, 100), Unit.Items);
+                //// gauge from Func<double>
+                //Metric.Gauge("MyValue", () => _rnd.Next(30, 100), Unit.Items);
 
-                // gauge that reads its value from a performance counter
-                Metric.PerformanceCounter("CPU Usage", "Processor", "% Processor Time",
-                    "_Total", Unit.Custom("%"));
+                //// gauge that reads its value from a performance counter
+                //Metric.PerformanceCounter("CPU Usage", "Processor", "% Processor Time",
+                //    "_Total", Unit.Custom("%"));
             }
         }
     }

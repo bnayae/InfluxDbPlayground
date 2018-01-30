@@ -19,9 +19,11 @@ using System.Threading.Tasks;
 // # show databases
 // # CREATE DATABASE {name}
 // # DROP DATABASE {name}
+// # precision rfc3339
 // # use <database>
 // # SHOW SERIES
 // # SHOW SERIES [FROM <measurement_name> [WHERE <tag_key>='<tag_value>']]
+// # DROP SERIES FROM /v1.*\.end/
 // # SHOW MEASUREMENTS
 // # SHOW MEASUREMENTS WITH MEASUREMENT =~ /v1\..*/ -- all fields from measurements that start with 'v1.' 
 // # SHOW TAG KEYS
@@ -43,7 +45,7 @@ namespace InfluxCollector
                      .Tag.With("version", "v1")
                      .Tag.With("host", Environment.MachineName)
                      .Tag.With("user", Environment.UserName)
-                     .Batch.AtInterval(TimeSpan.FromSeconds(1))
+                     .Batch.AtInterval(TimeSpan.FromSeconds(5))
                      //.WriteTo.InfluxDB("http://localhost:8086", database: "playground")
                      .WriteTo.InfluxDB("http://localhost:32770", database: "playground")
                      .CreateCollector();

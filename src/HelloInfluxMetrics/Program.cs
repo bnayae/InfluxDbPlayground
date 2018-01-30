@@ -25,9 +25,11 @@ using static System.Math;
 // # show databases
 // # CREATE DATABASE {name}
 // # DROP DATABASE {name}
+// # precision rfc3339
 // # use <database>
 // # SHOW SERIES
 // # SHOW SERIES [FROM <measurement_name> [WHERE <tag_key>='<tag_value>']]
+// # DROP SERIES FROM /v1.*\.end/
 // # SHOW MEASUREMENTS
 // # SHOW MEASUREMENTS WITH MEASUREMENT =~ /v1\..*/ -- all fields from measurements that start with 'v1.' 
 // # SHOW TAG KEYS
@@ -42,9 +44,11 @@ namespace HelloInfluxMetrics
     {
         private static readonly MetricTags DEFAULT_TAGS = new MetricTags("CategoryA", "CategoryB");
         private static readonly TimeSpan REPORT_INTERVAL = TimeSpan.FromSeconds(3);
-        private static readonly Counter _modTesting =
-                Metric//.Context("TheContext")
-                    .Counter("mod", Unit.Events, tags: DEFAULT_TAGS);
+        private static readonly Meter _modTesting =
+                Metric
+                    //.Context("TheContext")
+                    .Meter("mod", Unit.Events, tags: DEFAULT_TAGS);
+                    //.Counter("mod", Unit.Events, tags: DEFAULT_TAGS);
         private static readonly Meter _sinTesting =
                 Metric//.Context("TheContext")
                     .Meter("sin", Unit.Events, tags: DEFAULT_TAGS);
@@ -125,8 +129,8 @@ namespace HelloInfluxMetrics
                     tag = "mid";
 
                 await Task.Delay(delay);
-                //_modTesting.Mark();
-                _modTesting.Increment(tag);
+                _modTesting.Mark(tag, delay);
+                //_modTesting.Increment(tag);
                 Console.Write(".");
             }
         }

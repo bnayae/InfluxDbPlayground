@@ -42,7 +42,7 @@ namespace HelloInfluxMetrics
 {
     class Program
     {
-        private static readonly MetricTags DEFAULT_TAGS = new MetricTags("CategoryA", "CategoryB");
+        private static readonly MetricTags DEFAULT_TAGS = new MetricTags("categoryZ=CategoryA", "categoryV=CategoryB");
         private static readonly TimeSpan REPORT_INTERVAL = TimeSpan.FromSeconds(3);
         private static readonly Meter _modTesting =
                 Metric
@@ -62,7 +62,7 @@ namespace HelloInfluxMetrics
                 Metric//.Context("TheContext")
                     .Meter("cos-rnd", Unit.Events, TimeUnit.Seconds, DEFAULT_TAGS);
         private static readonly Metrics.Timer _timerTesting =
-                Metric.Timer("Scope", Unit.Events, tags: new MetricTags("CategoryC", "CategoryB"));
+                Metric.Timer("Scope", Unit.Events, tags: new MetricTags("categoryX=CategoryC", "categoryY=CategoryB"));
         private static readonly Random _rnd = new Random();
         private static readonly Stopwatch _stopper = Stopwatch.StartNew();
 
@@ -92,7 +92,7 @@ namespace HelloInfluxMetrics
                                      REPORT_INTERVAL,
                                      null /* filter */,
                                      cfg => cfg /* configuration */
-                                        .WithConverter(new DefaultConverter().WithGlobalTags("host=web1,env=dev"))
+                                        .WithConverter(new DefaultConverter().WithGlobalTags("host=BnayaPC,env=QA"))
                                         .WithFormatter(new DefaultFormatter().WithLowercase(true))
                                         .WithWriter(new InfluxdbHttpWriter(cfg, batchSize: 1000)))
                      );
@@ -129,7 +129,8 @@ namespace HelloInfluxMetrics
                     tag = "mid";
 
                 await Task.Delay(delay);
-                _modTesting.Mark(tag, delay);
+                //_modTesting.Mark(tag, delay);
+                _modTesting.Mark(tag, 1);
                 //_modTesting.Increment(tag);
                 Console.Write(".");
             }

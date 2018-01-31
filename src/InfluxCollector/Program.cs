@@ -96,6 +96,7 @@ namespace InfluxCollector
                 // # SELECT val, val10, val100 FROM "mod" WHERE version = 'v1'  LIMIT 10
                 var fields = new Dictionary<string, object>
                     {
+                        ["fix"] = 1,
                         ["val"] = delay,
                         ["val10"] = delay % 10,
                         ["val100"] = delay % 100

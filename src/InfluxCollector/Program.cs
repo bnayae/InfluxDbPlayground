@@ -76,7 +76,6 @@ namespace InfluxCollector
             while (true)
             {
                 int delay = (int)(100 * (_stopper.Elapsed.TotalSeconds % 50)); // up to 5 second
-                await Task.Delay(delay);
                 string tag = "low";
                 if (delay > 2500)
                     tag = "high";
@@ -92,15 +91,19 @@ namespace InfluxCollector
 
                 //Metrics.Time("mod", tags: tags); // do nothing
 
+                using (Metrics.Collector.Time("mod-duration", tags))
+                {
+                    await Task.Delay(delay);
+                }
 
                 // # SELECT val, val10, val100 FROM "mod" WHERE version = 'v1'  LIMIT 10
                 var fields = new Dictionary<string, object>
-                    {
-                        ["fix"] = 1,
-                        ["val"] = delay,
-                        ["val10"] = delay % 10,
-                        ["val100"] = delay % 100
-                    }; // better to reuse
+                {
+                    ["fix"] = 1,
+                    ["val"] = delay,
+                    ["val10"] = delay % 10,
+                    ["val100"] = delay % 100
+                }; // better to reuse
                 Metrics.Write("mod", fields: fields, tags: tags);
                 Console.Write(".");
             }

@@ -1,4 +1,5 @@
 ﻿using Metrics;
+using Metrics.Core;
 using Metrics.InfluxDB;
 using Metrics.InfluxDB.Adapters;
 using System;
@@ -43,12 +44,13 @@ namespace HelloInfluxMetrics
     class Program
     {
         private static readonly MetricTags DEFAULT_TAGS = new MetricTags("categoryZ=CategoryA", "categoryV=CategoryB");
-        private static readonly TimeSpan REPORT_INTERVAL = TimeSpan.FromSeconds(3);
-        private static readonly Meter _modTesting =
+        private static readonly TimeSpan REPORT_INTERVAL = TimeSpan.FromSeconds(1);
+        private static readonly Counter _modTesting =
                 Metric
+                    
                     //.Context("TheContext")
-                    .Meter("mod", Unit.Events, tags: DEFAULT_TAGS);
-                    //.Counter("mod", Unit.Events, tags: DEFAULT_TAGS);
+                    //.Meter("mod", Unit.Events, TimeUnit.Nanoseconds, tags: DEFAULT_TAGS);
+                    .Counter("mod", Unit.Events, tags: DEFAULT_TAGS);
         private static readonly Meter _sinTesting =
                 Metric//.Context("TheContext")
                     .Meter("sin", Unit.Events, tags: DEFAULT_TAGS);
@@ -68,8 +70,10 @@ namespace HelloInfluxMetrics
 
         static void Main(string[] args)
         {
-            var configuration = Metric.Config;
+            //Metric.Context("class name").
+               var configuration = Metric.Config;
             configuration
+                //.WithDefaultSamplingType(SamplingType.SlidingWindow)                
                 .WithHttpEndpoint("http://localhost:1234/")
                 .WithReporting(report => report
                     //.WithInfluxDbUdp("localhost", 8089,
@@ -87,7 +91,7 @@ namespace HelloInfluxMetrics
                     //                    //.WithWriter(new InfluxdbUdpWriter(cfg, batchSize: 10))
                     //                    ;
                     //                })
-                    .WithInfluxDbHttp("localhost", 32770,
+                    .WithInfluxDbHttp("localhost", 32768,
                                      "playground" /* database name */,
                                      REPORT_INTERVAL,
                                      null /* filter */,
@@ -97,7 +101,7 @@ namespace HelloInfluxMetrics
                                         .WithWriter(new InfluxdbHttpWriter(cfg, batchSize: 1000)))
                      );
             //.WithAllCounters();
-            MetricTags tags = new MetricTags("Good", "Bad", "Ugly");
+            //MetricTags tags = new MetricTags("Good", "Bad", "Ugly");
             //while (true)
             //{
             //    int delay = _rnd.Next(50, 160);
@@ -109,10 +113,41 @@ namespace HelloInfluxMetrics
             //        Console.Write(".");
             //    }
             //}
-            Task _ = ProduceModMetric();
+            //Task _;
+            ConsoleMetric().Wait() ;
+            // _ = ProduceModMetric();
+            //_ = ProduceModMetric();
             //_ = ProduceMetricRnd();
             //_ = ProduceMetric();
             Console.ReadLine();
+        }
+
+        private static async Task ConsoleMetric()
+        {
+            await Task.Delay(1);
+            do
+            {
+                char c = Console.ReadKey(true).KeyChar;
+                int s = Abs(c - '1' + 1);
+                var timer = Metric.Timer(
+                    "Request",
+                    Unit.Requests,
+                    tags: new MetricTags($"duration={s}"));
+                //var timer = Metric.Advanced.Timer(
+                //    "Request",
+                //    Unit.Requests,
+                //    () => new TimerMetric(SamplingType.Default),
+                //    TimeUnit.Milliseconds,
+                //    tags: new MetricTags($"duration={s}"));
+                Task _ = Task.Run(async () =>
+                {
+                    using (timer.NewContext())
+                    {
+                        Console.Write($"{s},");
+                        await Task.Delay(s * 1000);
+                    }
+                });
+            } while (true);
         }
 
         private static async Task ProduceModMetric()
@@ -120,19 +155,23 @@ namespace HelloInfluxMetrics
 
             while (true)
             {
-                int delay = (int)(100 * (_stopper.Elapsed.TotalSeconds % 50)); // up to 5 second
-                await Task.Delay(delay);
-                string tag = "low";
-                if (delay > 2500)
-                    tag = "high";
-                else if (delay > 100)
-                    tag = "mid";
+                using (_timerTesting.NewContext("X"))
+                {
+                    int delay = (int)(100 * (_stopper.Elapsed.TotalSeconds % 50)); // up to 5 second
+                    await Task.Delay(delay);
+                    string tag = "low";
+                    if (delay > 2500)
+                        tag = "high";
+                    else if (delay > 100)
+                        tag = "mid";
 
-                await Task.Delay(delay);
-                //_modTesting.Mark(tag, delay);
-                _modTesting.Mark(tag, 1);
-                //_modTesting.Increment(tag);
-                Console.Write(".");
+                    await Task.Delay(delay);
+                    //_modTesting.Mark(tag, delay);
+                    //_modTesting.Mark(tag, 1);
+                    _modTesting.Increment(tag);
+                    Console.Write(".");
+                }
+
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89624AB4-F552-40CD-82F1-79E6285E37FB}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetricsNetRaw", "MetricsNetRaw\MetricsNetRaw.csproj", "{400F53D2-B346-4390-A047-1314BC83DA43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfluxCollector", "InfluxCollector\InfluxCollector.csproj", "{B1CA2979-BAE2-4510-99D6-D4628E6D45F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebToInflux", "WebToInflux\WebToInflux.csproj", "{6F07FF09-87A4-4600-9C0F-56A7BD8D5D6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{B1CA2979-BAE2-4510-99D6-D4628E6D45F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1CA2979-BAE2-4510-99D6-D4628E6D45F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1CA2979-BAE2-4510-99D6-D4628E6D45F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F07FF09-87A4-4600-9C0F-56A7BD8D5D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F07FF09-87A4-4600-9C0F-56A7BD8D5D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F07FF09-87A4-4600-9C0F-56A7BD8D5D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F07FF09-87A4-4600-9C0F-56A7BD8D5D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

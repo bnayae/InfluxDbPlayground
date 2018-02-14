@@ -13,8 +13,8 @@ using System.Web.Http;
 
 namespace WebToInflux.Controllers
 {
-    [TelemetryReporterInflux]
-    //[TelemetryReporterMetrics]
+    //[TelemetryReporterInflux]
+    [TelemetryReporterMetrics]
     //[RoutePrefix("api/values"]
     public class ValuesController : ApiController
     {

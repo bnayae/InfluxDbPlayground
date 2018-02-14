@@ -20,7 +20,7 @@ namespace WebToInflux
 
         protected void Application_Start()
         {
-            //InitMetricsNet();
+            InitMetricsNet();
             InitInflux();
 
             AreaRegistration.RegisterAllAreas();
@@ -46,7 +46,7 @@ namespace WebToInflux
         private static void InitMetricsNet()
         {
             Metric.Config
-                //.WithHttpEndpoint("http://localhost:1234/")
+                .WithHttpEndpoint("http://localhost:1234/")
                 .WithReporting(report => report
                               .WithInfluxDbUdp("localhost", 8089,
                                         REPORT_INTERVAL,

@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy, Version=4.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.4.4.0\lib\net45\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="InfluxDB.Collector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\InfluxDB.Collector.1.0.0\lib\net45\InfluxDB.Collector.dll</HintPath>
     </Reference>

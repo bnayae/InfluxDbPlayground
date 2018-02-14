@@ -40,14 +40,13 @@ namespace InfluxCollector
 
         static void Main(string[] args)
         {
-            MetricsCollector collector =
+            //MetricsCollector collector =
                 Metrics.Collector = new CollectorConfiguration()
                      .Tag.With("version", "v1")
                      .Tag.With("host", Environment.MachineName)
                      .Tag.With("user", Environment.UserName)
                      .Batch.AtInterval(TimeSpan.FromSeconds(5))
-                     //.WriteTo.InfluxDB("http://localhost:8086", database: "playground")
-                     .WriteTo.InfluxDB("http://localhost:32770", database: "playground")
+                     .WriteTo.InfluxDB("http://localhost:8086", database: "playground")
                      .CreateCollector();
 
             //while (true)

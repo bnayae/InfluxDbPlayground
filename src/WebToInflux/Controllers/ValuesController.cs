@@ -13,10 +13,13 @@ using System.Web.Http;
 
 namespace WebToInflux.Controllers
 {
-    [TelemetryReporterAttribute]
+    [TelemetryReporterInflux]
+    //[TelemetryReporterMetrics]
+    //[RoutePrefix("api/values"]
     public class ValuesController : ApiController
     {
         // GET api/values
+        //[Route()]
         public async Task<IEnumerable<string>> Get()
         {
             int duration = await DAL();

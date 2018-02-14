@@ -38,6 +38,11 @@ using static System.Math;
 // # SHOW FIELD KEYS
 // # SHOW FIELD KEYS FROM /v1\..*\.sin/   -- all fields from series that start with 'v1.' and end with '.sin'
 
+/*
+docker run --name influx -p 8086:8086 -p 8089:8089/udp -p 8088:8088 -v C:\Docker\Volumes\influxdb\influxdb.conf:/etc/influxdb/influxdb.conf:ro influxdb -config /etc/influxdb/influxdb.conf
+
+docker run --name influx -p 8086:8086 -p  -p 8088:8088 -v C:\Docker\Volumes\influxdb\influxdb.conf:/etc/influxdb/influxdb.conf:ro influxdb -config /etc/influxdb/influxdb.conf
+*/
 
 namespace HelloInfluxMetrics
 {

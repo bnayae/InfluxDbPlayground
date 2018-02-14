@@ -76,29 +76,27 @@ namespace HelloInfluxMetrics
                 //.WithDefaultSamplingType(SamplingType.SlidingWindow)                
                 .WithHttpEndpoint("http://localhost:1234/")
                 .WithReporting(report => report
-                    //.WithInfluxDbUdp("localhost", 8089,
-                    //.WithInfluxDbUdp("localhost", 32771,
-                    //                REPORT_INTERVAL,
-                    //                null /* filter */,
-                    //                cfg =>
-                    //                {
-                    //                    cfg.Database = "playground";
-                    //                    cfg /* configuration */
-                    //                    .WithConverter(new DefaultConverter()
-                    //                            .WithGlobalTags("host=host-udp,env=dev-udp"));
-                    //                    //.WithFormatter(new DefaultFormatter().WithLowercase(true))
-                    //                    //.WithWriter(new InfluxdbUdpWriter(cfg, batchSize: 100))
-                    //                    //.WithWriter(new InfluxdbUdpWriter(cfg, batchSize: 10))
-                    //                    ;
-                    //                })
-                    .WithInfluxDbHttp("localhost", 32768,
-                                     "playground" /* database name */,
-                                     REPORT_INTERVAL,
-                                     null /* filter */,
-                                     cfg => cfg /* configuration */
-                                        .WithConverter(new DefaultConverter().WithGlobalTags("host=BnayaPC,env=QA"))
-                                        .WithFormatter(new DefaultFormatter().WithLowercase(true))
-                                        .WithWriter(new InfluxdbHttpWriter(cfg, batchSize: 1000)))
+                        .WithInfluxDbUdp("localhost", 8089,
+                                        REPORT_INTERVAL,
+                                        null /* filter */,
+                                        cfg =>
+                                        {
+                                            cfg.Database = "playground";
+                                            cfg /* configuration */
+                                            .WithConverter(new DefaultConverter()
+                                                    .WithGlobalTags("host=host-udp,env=dev-udp"))
+                                            //.WithFormatter(new DefaultFormatter().WithLowercase(true))
+                                            .WithWriter(new InfluxdbUdpWriter(cfg, batchSize: 10))
+                                            ;
+                                        })
+                        //.WithInfluxDbHttp("localhost", 8080,
+                        //                 "playground" /* database name */,
+                        //                 REPORT_INTERVAL,
+                        //                 null /* filter */,
+                        //                 cfg => cfg /* configuration */
+                        //                    .WithConverter(new DefaultConverter().WithGlobalTags("host=BnayaPC,env=QA"))
+                        //                    .WithFormatter(new DefaultFormatter().WithLowercase(true))
+                        //                    .WithWriter(new InfluxdbHttpWriter(cfg, batchSize: 1000)))
                      );
             //.WithAllCounters();
             //MetricTags tags = new MetricTags("Good", "Bad", "Ugly");
@@ -130,7 +128,7 @@ namespace HelloInfluxMetrics
                 char c = Console.ReadKey(true).KeyChar;
                 int s = Abs(c - '1' + 1);
                 var timer = Metric.Timer(
-                    "Request",
+                    "request",
                     Unit.Requests,
                     tags: new MetricTags($"duration={s}"));
                 //var timer = Metric.Advanced.Timer(

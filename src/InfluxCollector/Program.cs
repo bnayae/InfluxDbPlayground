@@ -41,13 +41,13 @@ namespace InfluxCollector
         static void Main(string[] args)
         {
             //MetricsCollector collector =
-                Metrics.Collector = new CollectorConfiguration()
-                     .Tag.With("version", "v1")
-                     .Tag.With("host", Environment.MachineName)
-                     .Tag.With("user", Environment.UserName)
-                     .Batch.AtInterval(TimeSpan.FromSeconds(5))
-                     .WriteTo.InfluxDB("http://localhost:8086", database: "playground")
-                     .CreateCollector();
+            Metrics.Collector = new CollectorConfiguration()
+                 .Tag.With("version", "v1")
+                 .Tag.With("host", Environment.MachineName)
+                 .Tag.With("user", Environment.UserName)
+                 .Batch.AtInterval(TimeSpan.FromSeconds(5))
+                 .WriteTo.InfluxDB("http://localhost:8086", database: "playground")
+                 .CreateCollector();
 
             //while (true)
             //{
@@ -66,6 +66,7 @@ namespace InfluxCollector
             //    Thread.Sleep(delay);
             //    Console.Write(".");
             //}
+            //SingleMetric();
             Task _ = ProduceModMetric();
             Console.ReadLine();
         }
@@ -106,6 +107,18 @@ namespace InfluxCollector
                 Metrics.Write("mod", fields: fields, tags: tags);
                 Console.Write(".");
             }
+        }
+
+        private static void SingleMetric()
+        {
+            var tags = new Dictionary<string, string> { ["level"] = "1" };
+
+            var fields = new Dictionary<string, object>
+            {
+                ["fix"] = 1,
+                ["val"] = 10,
+            }; // better to reuse
+            Metrics.Write("test", fields: fields, tags: tags);
         }
     }
 }
